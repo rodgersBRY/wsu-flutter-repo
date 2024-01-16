@@ -20,7 +20,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
   final userController = UserController();
 
   deleteUser() async {
-    var resp = await userController.deleteUser(widget.user.id);
+    var resp = await userController.deleteUser(widget.user.id!);
 
     if (resp == "success") {
       Get.snackbar(

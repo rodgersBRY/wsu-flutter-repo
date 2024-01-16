@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wsu_flutter/pages/new-edit-user.dart';
 
 import '../controllers/user.controller.dart';
 import '../models/user.model.dart';
@@ -43,7 +44,7 @@ class _UserScreenWidgetState extends State<UserScreenWidget> {
                     );
                   } else {
                     List<User> users = snapshot.data!;
-        
+
                     if (users.isEmpty) {
                       return const Expanded(
                         child: Center(
@@ -82,7 +83,10 @@ class _UserScreenWidgetState extends State<UserScreenWidget> {
                 label: const Text("Add User"),
                 backgroundColor: Colors.green,
                 foregroundColor: Colors.white,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const NewEditUser()));
+                },
                 icon: const Icon(Icons.add),
               ),
             ))

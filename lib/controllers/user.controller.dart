@@ -57,6 +57,8 @@ class UserController {
         }),
       );
 
+      print(resp.body);
+
       return resp.statusCode;
     } catch (err) {
       throw Exception(err);
