@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,7 +9,8 @@ import '../widgets/custom-textfield.dart';
 import './home.dart';
 
 class NewEditUser extends StatefulWidget {
-  const NewEditUser({super.key});
+  User? user;
+  NewEditUser({this.user, super.key});
 
   @override
   State<NewEditUser> createState() => _NewEditUserState();
@@ -33,8 +36,59 @@ class _NewEditUserState extends State<NewEditUser> {
     };
 
     await userController.addUser(user: User.fromJson(user));
-    
+
+    Get.snackbar(
+      "Success",
+      "User saved",
+      backgroundColor: Colors.white,
+      colorText: Colors.white,
+    );
+
     Navigator.of(context).pop();
+  }
+
+  editUser() async {
+    String userId = widget.user!.id!;
+
+    var user = {
+      "firstName": _fnameController.text.trim(),
+      "lastName": _lnameController.text.trim(),
+      "email": _emailController.text.trim(),
+    };
+
+    var resp = await userController.editUser(
+        user: User.fromJson(user), userId: userId);
+
+    if (resp == "success") {
+      Get.snackbar(
+        "Success",
+        "User edited successfully",
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const HomePage()),
+        (route) => false,
+      );
+    } else {
+      Get.snackbar(
+        "Error",
+        "Edit operation failed",
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.user != null) {
+      _fnameController.text = widget.user!.firstName;
+      _lnameController.text = widget.user!.lastName;
+      _emailController.text = widget.user!.email;
+    }
   }
 
   @override
@@ -65,7 +119,7 @@ class _NewEditUserState extends State<NewEditUser> {
               focusNode: _emailFocus,
             ),
             ElevatedButton(
-              onPressed: saveUser,
+              onPressed: widget.user != null ? editUser : saveUser,
               child: const Text("Save"),
             ),
           ],

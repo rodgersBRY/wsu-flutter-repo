@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wsu_flutter/pages/new-edit-user.dart';
 
 import '../controllers/user.controller.dart';
 import '../models/user.model.dart';
@@ -30,7 +31,10 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         colorText: Colors.white,
       );
 
-      Get.off(const HomePage());
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const HomePage()),
+        (route) => false,
+      );
     } else {
       Get.snackbar(
         "Error",
@@ -51,7 +55,11 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         actions: [
           IconButton(
             onPressed: () {
-              print("editing user");
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => NewEditUser(user: widget.user),
+                ),
+              );
             },
             icon: const Icon(Icons.edit),
           ),

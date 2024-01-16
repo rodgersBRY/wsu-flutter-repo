@@ -85,7 +85,7 @@ class _UserScreenWidgetState extends State<UserScreenWidget> {
                 foregroundColor: Colors.white,
                 onPressed: () {
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const NewEditUser()));
+                      MaterialPageRoute(builder: (context) => NewEditUser()));
                 },
                 icon: const Icon(Icons.add),
               ),

@@ -33,8 +33,6 @@ class UserController {
       http.Response response =
           await http.delete(Uri.parse("${AppConstants.baseUrl}/$userId"));
 
-      print(response.statusCode);
-
       if (response.statusCode == 204) {
         return "success";
       } else {
@@ -57,9 +55,29 @@ class UserController {
         }),
       );
 
-      print(resp.body);
-
       return resp.statusCode;
+    } catch (err) {
+      throw Exception(err);
+    }
+  }
+
+  Future editUser({required User user, required String userId}) async {
+    try {
+      final resp = await http.put(
+        Uri.parse("${AppConstants.baseUrl}/$userId"),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "firstName": user.firstName,
+          "lastName": user.lastName,
+          "email": user.email,
+        }),
+      );
+
+      if (resp.statusCode == 201) {
+        return "success";
+      } else {
+        return "fail";
+      }
     } catch (err) {
       throw Exception(err);
     }
