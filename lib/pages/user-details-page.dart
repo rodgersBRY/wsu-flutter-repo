@@ -64,7 +64,29 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
             icon: const Icon(Icons.edit),
           ),
           IconButton(
-            onPressed: () => deleteUser(),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text('Are you sure?'),
+                      content: const Text(
+                          'On clicking ok, the user will be deleted'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(context);
+                          },
+                          child: const Text("Cancel"),
+                        ),
+                        TextButton(
+                          onPressed: deleteUser,
+                          child: const Text("Ok"),
+                        ),
+                      ],
+                    );
+                  });
+            },
             icon: const Icon(Icons.delete),
           ),
         ],
