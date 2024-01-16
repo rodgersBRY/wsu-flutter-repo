@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:wsu_flutter/utils/app_constants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,7 +23,7 @@ class _HomePageState extends State<HomePage> {
       });
 
       final response =
-          await http.get(Uri.parse("http://10.0.2.2:3000/api/health"));
+          await http.get(Uri.parse("${AppConstants.baseUrl}/api/health"));
 
       var jsonData = json.decode(response.body);
 
