@@ -1,9 +1,11 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:wsu_flutter/controllers/user.controller.dart';
+import 'package:get/get.dart';
 
+import '../controllers/user.controller.dart';
 import '../models/user.model.dart';
+import '../pages/home.dart';
 
 class UserDetailsPage extends StatefulWidget {
   User user;
@@ -17,8 +19,26 @@ class UserDetailsPage extends StatefulWidget {
 class _UserDetailsPageState extends State<UserDetailsPage> {
   final userController = UserController();
 
-  deleteUser() {
-    print("delete user");
+  deleteUser() async {
+    var resp = await userController.deleteUser(widget.user.id);
+
+    if (resp == "success") {
+      Get.snackbar(
+        "Success",
+        "User has been deleted",
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+
+      Get.off(const HomePage());
+    } else {
+      Get.snackbar(
+        "Error",
+        "Failed to delete user",
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
   }
 
   @override
@@ -36,7 +56,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
             icon: const Icon(Icons.edit),
           ),
           IconButton(
-            onPressed: deleteUser,
+            onPressed: () => deleteUser(),
             icon: const Icon(Icons.delete),
           ),
         ],

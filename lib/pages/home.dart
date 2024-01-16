@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wsu_flutter/widgets/server-health-widget.dart';
-import 'package:wsu_flutter/widgets/user-screen-widget.dart';
+
+import '../widgets/server-health-widget.dart';
+import '../widgets/user-screen-widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,7 +17,7 @@ class _HomePageState extends State<HomePage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('WSU Kenya'),
+          title: const Text('WSU-GH'),
           backgroundColor: Colors.white,
           bottom: const TabBar(
             indicatorColor: Colors.green,

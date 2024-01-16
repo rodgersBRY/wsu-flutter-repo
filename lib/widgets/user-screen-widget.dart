@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wsu_flutter/models/user.model.dart';
-import 'package:wsu_flutter/pages/user-details-page.dart';
 
 import '../controllers/user.controller.dart';
+import '../models/user.model.dart';
+import '../pages/user-details-page.dart';
 
 class UserScreenWidget extends StatefulWidget {
   const UserScreenWidget({super.key});
@@ -26,33 +26,33 @@ class _UserScreenWidgetState extends State<UserScreenWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(
-          child: FutureBuilder(
-              future: usersFuture,
-              builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.none:
-                  case ConnectionState.waiting:
+        FutureBuilder(
+            future: usersFuture,
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                case ConnectionState.waiting:
+                  return const Expanded(
+                      child: Center(child: CircularProgressIndicator()));
+                default:
+                  if (snapshot.hasError) {
                     return const Expanded(
-                        child: Center(child: CircularProgressIndicator()));
-                  default:
-                    if (snapshot.hasError) {
+                      child: Center(
+                        child: Text("An error has occurred!"),
+                      ),
+                    );
+                  } else {
+                    List<User> users = snapshot.data!;
+        
+                    if (users.isEmpty) {
                       return const Expanded(
                         child: Center(
-                          child: Text("An error has occurred!"),
+                          child: Text("There are no users on the system"),
                         ),
                       );
                     } else {
-                      List<User> users = snapshot.data!;
-
-                      if (users.isEmpty) {
-                        return const Expanded(
-                          child: Center(
-                            child: Text("There are no users on the system"),
-                          ),
-                        );
-                      } else {
-                        return ListView.builder(
+                      return Expanded(
+                        child: ListView.builder(
                           itemCount: users.length,
                           itemBuilder: (context, index) {
                             return ListTile(
@@ -68,12 +68,24 @@ class _UserScreenWidgetState extends State<UserScreenWidget> {
                               },
                             );
                           },
-                        );
-                      }
+                        ),
+                      );
                     }
-                }
-              }),
-        )
+                  }
+              }
+            }),
+        Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: FloatingActionButton.extended(
+                label: const Text("Add User"),
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+                onPressed: () {},
+                icon: const Icon(Icons.add),
+              ),
+            ))
       ],
     );
   }
